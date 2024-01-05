@@ -24,11 +24,11 @@ app.use("/api/products", productsRoute);
 app.use("/api/users", users);
 app.use("/api/orders", orders);
 
-// app.get("/", (req, res) => {
-//   res.send("Welcome our to online shop API...");
-// });
+app.get("/", (req, res) => {
+  res.send("Welcome our to online shop API...");
+});
 
-app.use(express.static('../frontend/build'));
+// app.use(express.static('../frontend/build'));
 
 app.get("/products", (req, res) => {
   res.send(products);
