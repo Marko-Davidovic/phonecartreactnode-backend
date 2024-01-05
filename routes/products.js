@@ -38,10 +38,72 @@ router.post("/", isAdmin, async (req, res) => {
 
 router.delete("/:id", isAdmin, async (req, res) => {
   try {
-    await Product.findByIdAndDelete(req.params.id);
-    res.status(200).send("Product has been deleted...");
+    const product = await Product.findById(req.params.id);
+
+    if (!product) return res.status(404).send("Product not found...");
+
+    if (product.image.public_id) {
+      const destroyResponse = await cloudinary.uploader.destroy(
+        product.image.public_id
+      );
+
+      if (destroyResponse) {
+        const deletedProduct = await Product.findByIdAndDelete(req.params.id);
+
+        res.status(200).send(deletedProduct);
+      }
+    } else {
+      console.log("Action terminated. Failed to deleted product image...");
+    }
   } catch (error) {
     res.status(500).send(error);
+  }
+});
+
+// EDIT PRODUCT
+
+router.put("/:id", isAdmin, async (req, res) => {
+  if (req.body.productImg) {
+    const destroyResponse = await cloudinary.uploader.destroy(
+      req.body.product.image.public_id
+    );
+
+    if (destroyResponse) {
+      const uploadedResponse = await cloudinary.uploader.upload(
+        req.body.productImg,
+        {
+          upload_preset: "online-shop",
+        }
+      );
+
+      if (uploadedResponse) {
+        const updatedProduct = await Product.findByIdAndUpdate(
+          req.params.id,
+          {
+            $set: {
+              ...req.body.product,
+              image: uploadedResponse,
+            },
+          },
+          { new: true }
+        );
+
+        res.status(200).send(updatedProduct);
+      }
+    }
+  } else {
+    try {
+      const updatedProduct = await Product.findByIdAndUpdate(
+        req.params.id,
+        {
+          $set: req.body.product,
+        },
+        { new: true }
+      );
+      res.status(200).send(updatedProduct);
+    } catch (err) {
+      res.status(500).send(err);
+    }
   }
 });
 
@@ -55,9 +117,9 @@ router.get("/", async (req, res) => {
     if (qbrand) {
       products = await Product.find({
         brand: qbrand,
-      });
+      }).sort({ _id: -1 });
     } else {
-      products = await Product.find();
+      products = await Product.find().sort({ _id: -1 });
     }
 
     res.status(200).send(products);
@@ -72,23 +134,6 @@ router.get("/find/:id", async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
     res.status(200).send(product);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-//UPDATE
-
-router.put("/:id", isAdmin, async (req, res) => {
-  try {
-    const updatedProduct = await Product.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: req.body,
-      },
-      { new: true }
-    );
-    res.status(200).send(updatedProduct);
   } catch (error) {
     res.status(500).send(error);
   }
