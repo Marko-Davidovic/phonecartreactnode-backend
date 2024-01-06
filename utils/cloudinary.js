@@ -11,13 +11,6 @@ cloudinary.config({
   secure: true,
 });
 
-// cloudinary.config({
-//   cloud_name: 'dusmak4zn',
-//   api_key: '172321366798241',
-//   api_secret: '0ozcG-vI1g-NnZDtnad5fTJW9Fg',
-//   secure: true,
-// });
-
 const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
 
 module.exports = {
