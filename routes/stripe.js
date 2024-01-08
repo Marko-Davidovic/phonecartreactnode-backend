@@ -92,8 +92,8 @@ router.post("/create-checkout-session", async (req, res) => {
     cancel_url: `${process.env.CLIENT_URL}/cart`,
   });
 
-  // res.redirect(303, session.url);
-  res.send({ url: session.url });
+  res.redirect(303, session.url);
+  // res.send({ url: session.url });
 });
 
 // Create order function
