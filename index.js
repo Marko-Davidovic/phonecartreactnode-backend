@@ -31,11 +31,15 @@ app.use("/api/products", productsRoute);
 app.use("/api/users", users);
 app.use("/api/orders", orders);
 
-app.get("/", (req, res) => {
-  res.send("Welcome our to online shop API...");
-});
+// app.get("/", (req, res) => {
+//   res.send("Welcome our to online shop API...");
+// });
 
-// app.use(express.static('../frontend/build'));
+app.use(express.static('../frontend/build'));
+const path = require("node:path");
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+});
 
 app.get("/products", (req, res) => {
   res.send(products);

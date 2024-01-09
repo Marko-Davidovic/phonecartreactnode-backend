@@ -88,12 +88,12 @@ router.post("/create-checkout-session", async (req, res) => {
     line_items,
     mode: "payment",
     customer: customer.id,
-    success_url: 'https://shopyphone-fullstack.onrender.com/checkout-success',
-    cancel_url: 'https://shopyphone-fullstack.onrender.com/cart',
+    success_url: `${process.env.CLIENT_URL}/checkout-success`,
+    cancel_url: `${process.env.CLIENT_URL}/cart`,
   });
 
-   res.redirect(303, session.url);
-  // res.send({ url: session.url });
+   //res.redirect(303, session.url);
+   res.send({ url: session.url });
 });
 
 // Create order function
