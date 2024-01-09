@@ -36,7 +36,7 @@ router.post("/create-checkout-session", async (req, res) => {
   const session = await stripe.checkout.sessions.create({
     payment_method_types: ["card"],
     shipping_address_collection: {
-      allowed_countries: ["US"],
+      allowed_countries: ["US", "CA", "KE"],
     },
     shipping_options: [
       {
@@ -92,8 +92,8 @@ router.post("/create-checkout-session", async (req, res) => {
     cancel_url: `${process.env.CLIENT_URL}/cart`,
   });
 
-   //res.redirect(303, session.url);
-   res.send({ url: session.url });
+  // res.redirect(303, session.url);
+  res.send({ url: session.url });
 });
 
 // Create order function
@@ -112,7 +112,7 @@ const createOrder = async (customer, data, line_items) => {
 
   try {
     const savedOrder = await newOrder.save();
-    // console.log("Processed Order:", savedOrder);
+    console.log("Processed Order:", savedOrder);
   } catch (err) {
     console.log(err);
   }
@@ -167,7 +167,7 @@ router.post(
               data.id,
               {},
               function (err, lineItems) {
-                // console.log("line items", lineItems);
+                console.log("line items", lineItems);
 
                 createOrder(customer, data, lineItems);
               }
