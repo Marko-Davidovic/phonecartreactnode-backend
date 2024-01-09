@@ -35,10 +35,15 @@ app.use("/api/orders", orders);
 //   res.send("Welcome our to online shop API...");
 // });
 
-app.use(express.static('../frontend/build'));
+// app.use(express.static('../frontend/build'));
+app.use(express.static(path.join(__dirname, 'frontend', 'build')));
 const path = require("node:path");
+
+// app.get('/*', function (req, res) {
+//   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+// });
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
 });
 
 app.get("/products", (req, res) => {
