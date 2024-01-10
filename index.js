@@ -35,16 +35,13 @@ app.use("/api/orders", orders);
 //   res.send("Welcome our to online shop API...");
 // });
 
-// app.use(express.static('../frontend/build'));
-app.use(express.static(path.join(__dirname, 'frontend', 'build')));
-const path = require("node:path");
-
-// app.get('/*', function (req, res) {
-//   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
-// });
+app.use(express.static('../frontend/build'));
+ const path = require("path");
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 });
+
+
 
 app.get("/products", (req, res) => {
   res.send(products);
@@ -64,4 +61,3 @@ mongoose
   })
   .then(() => console.log("MongoDB connection established..."))
   .catch((error) => console.error("MongoDB connection failed:", error.message));
-
