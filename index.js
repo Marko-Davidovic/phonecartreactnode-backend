@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors());
 // Enable CORS for all routes
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://shopyphone-fullstack.onrender.com');
+  res.header('Access-Control-Allow-Origin', 'https://mobile-vibe-store.onrender.com');
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   next();
@@ -35,10 +35,10 @@ app.use("/api/orders", orders);
 //   res.send("Welcome our to online shop API...");
 // });
 
-app.use(express.static('../frontend/build'));
+app.use(express.static('./frontend/build'));
  const path = require("path");
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+  res.sendFile(path.join(__dirname, './frontend/build', 'index.html'));
 });
 
 
