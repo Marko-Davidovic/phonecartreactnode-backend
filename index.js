@@ -40,7 +40,7 @@ app.use(express.static('../frontend/build'));
 
 const path = require("path");
 app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'frontend/build', 'index.html'));
 });
 
 
