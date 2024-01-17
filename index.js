@@ -42,11 +42,20 @@ app.get("/", (req, res) => {
 //   res.sendFile(path.join(__dirname, '../frontend/build', 'index.html'));
 // });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client/build/index.html'));
+});
 
 
 app.get("/products", (req, res) => {
   res.send(products);
 });
+
+// app.get('/checkout-success', (req, res) => {
+//   res.send('Checkout success!');
+// })
+
+
 
 const uri = process.env.DB_URI;
 const port = process.env.PORT || 5001;
